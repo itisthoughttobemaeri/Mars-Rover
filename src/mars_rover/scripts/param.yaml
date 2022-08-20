@@ -1,0 +1,11 @@
+rosdistro: 'noetic
+
+  '
+roslaunch:
+  uris:
+    host_mari__33897: http://mari:33897/
+rosversion: '1.15.14
+
+  '
+run_id: 395c77c4-94c9-11ec-bece-c72005672ae5
+wheel_radius_mt: 1

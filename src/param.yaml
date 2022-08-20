@@ -1,0 +1,11 @@
+camera_angle: 0
+rosdistro: 'noetic
+
+  '
+roslaunch:
+  uris:
+    host_mari__46745: http://mari:46745/
+rosversion: '1.15.14
+
+  '
+run_id: 157c786e-a2f1-11ec-bece-c72005672ae5

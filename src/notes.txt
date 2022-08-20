@@ -1,0 +1,73 @@
+Notes: 
+
+ROS allows separation of concern, break up the code into reusable blocks within the context of the application we are trying to build. We build packages of code (which contain ROS nodes) and then re-use them in different context. Each node works in terms of publisher/subscriber pattern. This architecture is more robust against faults.
+
+Let’s create the first package.
+mari@mari:~/catkin_ws/src$ catkin_create_pkg my_robot_tutorial roscpp rospy std_msgs
+mari@mari:~/catkin_ws/src/my_robot_tutorial$ mkdir scripts
+mari@mari:~/catkin_ws/src/my_robot_tutorial/scripts$ touch my_first_node.py
+mari@mari:~/catkin_ws/src/my_robot_tutorial/scripts$ chmod +x my_first_node.py 
+
+To check which nodes are running, we can use:
+mari@mari:~/catkin_ws/src/my_robot_tutorial/scripts$ rosnode list
+
+Parameters server. This is a centralised place where to store variables related to physical attributes of the robots. 
+mari@mari:~$: rosparam list
+mari@mari:~$: rosparam get /rosdistro
+mari@mari:~$: rosparam set /wheel_radius 0.155
+mari@mari:~$: rosparam dump param.yaml
+mari@mari:~$: rosparam load param.yaml
+
+To avoid running ros manually from terminal windows, is possible to launch files automatically. 
+mari@mari:~/catkin_ws$ source devel/setup.bash
+mari@mari:~/catkin_ws$ rosrun mars_rover publisher.py
+
+We have to make the files we want to run as executable, by making sure we typed this when we created the file: 
+mari@mari:~/catkin_ws/src/my_robot_tutorial/scripts$ chmod +x my_first_node.py 
+
+We also have to make sure that rosrun knows the python version, by adding this line at the top of the file:
+#!/usr/bin/env python3
+
+Next thing you gave to create a Launch folder with a .launch file. Running roslaunch pkgname and then launch file will automatically launch the nodes specified in the file. 
+mari@mari:~/catkin_ws$ source devel/setup.bash
+mari@mari:~/catkin_ws$ roslaunch mars_rover rpm_sim.launch
+
+Rod bag files, files that record the data in res, allowing to replay the robot (especially if the robot is difficult to test), you can review the developed code created over time. 
+mari@mari:~$ cd catkin_ws/
+mari@mari:~/catkin_ws$ source devel/setup.bash
+mari@mari:~/catkin_ws$ roslaunch mars_rover rpm_sim.launch
+
+Check that everything is running with rostopic list and echo /topic_name. Let’s record now the bag file, subscribing to all the topics. 
+mari@mari:~$ rosbag record -a -O test.bag
+mari@mari:~$ rosbag play -l test.bag
+(with -l for looping)
+
+We can download packages from terminal, if they have a ros page. 
+mari@mari:~$ sudo apt install ros-noetic-usb-cam
+mari@mari:~$ roscd usb_cam/
+mari@mari:~$ rospack list-names
+This has already a series of topic. 
+We have to attach a fake usb_cam. 
+
+Services or srv files. This are useful to costumise msg types.  
+1. Create the file in the srv folder
+2. Edit the package.xml file and uncomment the two line needed for messages
+3. Edit the CMakeList.txt file and we include the message_generation package
+
+## Generate services in the 'srv' folder
+add_service_files(
+  FILES
+  oddEvenCheck.srv
+)
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  sensor_msg
+  std_msgs
+)
+mari@mari:~/catkin_ws$ catkin_make
+mari@mari:~/catkin_ws$ rossrv list
+
+Actions. (see comments in the code)
+mari@mari:~/catkin_ws$ rosmsg list

@@ -1,0 +1,4 @@
+string direction
+---
+sensor_msgs/Image answer_view
+int32 camera_angle

@@ -1,0 +1,15 @@
+<!-- roslaunch. See tag reference at http://wiki.ros.org/roslaunch/XML, section 4.
+
+<launch>, <node>, <machine>, <include>, <remap>, <env>, <param>, <rosparam>, <group>, <test>, <arg>
+
+you can specify the nodes you want to launch by defining the characteristics of the node (name, pkg and type=name of the file) -->
+
+
+
+<!-- roslaunch will automatically start a roscore if there isn't already one running. -->
+
+<launch>
+  <param name="/wheel_radius_mt" type="double" value="2.0"/>
+  <node name="rpm_sensor_pub_node" pkg="mars_rover" type="publisher.py"/>
+  <node name="rpm_sensor_sub_node" pkg="mars_rover" type="subscriber.py" output="screen"/>
+</launch>
